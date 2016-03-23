@@ -1,5 +1,5 @@
 {
-    "name": "david-hubner/phalcon-ext",
+    "name": "davihu/phalcon-ext",
     "type": "library",
     "description": "Various extensions and utilities for Phalcon Framework",
     "keywords": ["framework", "phalcon", "extension"],
@@ -8,12 +8,12 @@
         {
             "name": "David Hübner",
             "email": "david.hubner@gmail.com",
-            "homepage": "https://github.com/david-hubner"
+            "homepage": "https://github.com/davihu"
         }
     ],
     "support": {
-        "issues": "https://github.com/david-hubner/phalcon-ext/issues",
-        "source": "https://github.com/david-hubner/phalcon-ext"
+        "issues": "https://github.com/davihu/phalcon-ext/issues",
+        "source": "https://github.com/davihu/phalcon-ext"
     },
     "require": {
         "php": ">=5.4"
