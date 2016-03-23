@@ -10,7 +10,8 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
+use Phalcon\Validation,
+    Phalcon\Validation\Exception;
 
 /**
  * Validates if password retype matches password
@@ -36,9 +37,14 @@ class PasswordRetype extends Validation\Validator
      * @param   \Phalcon\Validation $validation - validation object
      * @param   string $attribute - validated attribute
      * @return  bool
+     * @throws  \Phalcon\Validation\Exception
      */
     public function validate(Validation $validation, $attribute)
     {
+        if (!$this->hasOption('origField')) {
+            throw new Exception('Original field must be set');
+        }
+
         $allowEmpty = $this->getOption('allowEmpty');
         $value = $validation->getValue($attribute);
 
