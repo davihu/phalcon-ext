@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PhalconExt\\": "src/"
+            "PhalconExt\\": "src/PhalconExt/"
         }
     },
     "autoload-dev": {
