@@ -1,0 +1,34 @@
+{
+    "name": "david-hubner/phalcon-ext",
+    "type": "library",
+    "description": "Various extensions and utilities for Phalcon Framework",
+    "keywords": ["framework", "phalcon", "extension"],
+    "license": "New BSD License",
+    "authors": [
+        {
+            "name": "David Hübner",
+            "email": "david.hubner@gmail.com",
+            "homepage": "https://github.com/david-hubner"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/david-hubner/phalcon-ext/issues",
+        "source": "https://github.com/david-hubner/phalcon-ext"
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhalconExt\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhalconExt\\Tests\\": "tests/"
+        }
+    }
+}
