@@ -48,11 +48,7 @@ class EmailDomain extends Validation\Validator
             }
         }
 
-        $message = $this->getOption('message');
-
-        if (empty($message)) {
-            $message = 'Invalid email domain';
-        }
+        $message = ($this->hasOption('message') ? $this->getOption('message') : 'Invalid email domain');
 
         $validation->appendMessage(
             new Validation\Message($message, $attribute, 'EmailDomainValidator')
