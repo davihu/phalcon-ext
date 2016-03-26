@@ -1,4 +1,4 @@
-New BSD License
+# New BSD License
 
 Copyright (c) 2016, David Hübner
 All rights reserved.
