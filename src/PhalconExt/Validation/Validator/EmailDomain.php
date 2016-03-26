@@ -2,9 +2,9 @@
 
 /*
  * Phalcon Ext
- * Copyright (c) 2011-2016 David Hübner
- * This source file is subject to the New BSD License that is bundled
- * with this package in the file docs/LICENSE.
+ * Copyright (c) 2016 David Hübner
+ * This source file is subject to the New BSD License
+ * Licence is bundled with this package in the file docs/LICENSE.txt
  * Author: David Hübner <david.hubner@gmail.com>
  */
 
