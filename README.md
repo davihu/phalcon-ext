@@ -22,9 +22,11 @@ to your composer.json file
 ## Contents
 
 ### Model
+* [PhalconExt\Mvc\Model\Traits\RateLimitAccessTrait](src/PhalconExt/Mvc/Model) - Adds access rate limit support to target model
 * [PhalconExt\Mvc\Model\Traits\RateLimitLoginTrait](src/PhalconExt/Mvc/Model) - Adds login rate limit support to target model
 
 ### Validators
+* [PhalconExt\Validation\Validator\Color](src/PhalconExt/Validation/Validator) - Validates if value is valid color
 * [PhalconExt\Validation\Validator\Digit](src/PhalconExt/Validation/Validator) - Validates if value is whole number, can be set as string or integer
 * [PhalconExt\Validation\Validator\EmailDomain](src/PhalconExt/Validation/Validator) - Validates email domain existence via DNS
 * [PhalconExt\Validation\Validator\PasswordRetype](src/PhalconExt/Validation/Validator) - Validates if password confirmation matches password
