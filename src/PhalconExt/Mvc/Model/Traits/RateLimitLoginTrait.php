@@ -18,6 +18,16 @@ namespace PhalconExt\Mvc\Model\Traits;
  *     MAX_FAILED_LOGIN_ATTEMPTS
  *     ACCOUNT_LOCK_DURATION (in seconds)
  *
+ * Usage:
+ * 
+ * class ModelWithLoginRateLimit extends \Phalcon\Mvc\Model
+ * {
+ *     use \PhalconExt\Mvc\Model\Traits\RateLimitLoginTrait;
+ * 
+ *     const MAX_FAILED_LOGIN_ATTEMPTS = 10;
+ *     const ACCOUNT_LOCK_DURATION = 600;
+ * }
+ *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
  * @since      Release 1.0

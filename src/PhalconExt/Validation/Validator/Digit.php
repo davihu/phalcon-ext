@@ -16,6 +16,13 @@ use Phalcon\Validation;
  * Validates if value is whole number
  * Can be set as string or integer 
  *
+ * Usage:
+ * 
+ * new \PhalconExt\Validation\Validator\Digit([
+ *     'message' => {string - validation message},
+ *     'allowEmpty' => {bool - allow empty value}
+ * ])
+ *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
  * @since      Release 1.0

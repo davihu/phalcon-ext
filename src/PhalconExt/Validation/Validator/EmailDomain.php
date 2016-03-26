@@ -15,6 +15,13 @@ use Phalcon\Validation;
 /**
  * Validates email domain existence via DNS
  *
+ * Usage:
+ * 
+ * new \PhalconExt\Validation\Validator\EmailDomain([
+ *     'message' => {string - validation message},
+ *     'allowEmpty' => {bool - allow empty value}
+ * ])
+ *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
  * @since      Release 1.0

@@ -16,6 +16,13 @@ use Phalcon\Validation,
 /**
  * Validates exact string length
  *
+ * Usage:
+ * 
+ * new \PhalconExt\Validation\Validator\StringLengthExact([
+ *     'message' => {string - validation message},
+ *     'allowEmpty' => {bool - allow empty value}
+ * ])
+ *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
  * @since      Release 1.0

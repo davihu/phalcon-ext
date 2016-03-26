@@ -17,9 +17,10 @@ use Phalcon\Validation;
  * 
  * Usage:
  * 
- * new PasswordStrength([
- *     'message' => 'Password is too weak',
- *     'minScore' => 2
+ * new \PhalconExt\Validation\Validator\PasswordStrength([
+ *     'minScore' => {[1-4] - minimal password score},
+ *     'message' => {string - validation message},
+ *     'allowEmpty' => {bool - allow empty value}
  * ])
  *
  * @author     David Hübner <david.hubner at google.com>

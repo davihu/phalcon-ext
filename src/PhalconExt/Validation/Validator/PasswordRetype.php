@@ -18,9 +18,10 @@ use Phalcon\Validation,
  * 
  * Usage:
  * 
- * new PasswordRetype([
- *     'message' => 'Passwords do not match',
- *     'origField' => 'password'
+ * new \PhalconExt\Validation\Validator\PasswordRetype([
+ *     'origField' => {string - original field attribute},
+ *     'message' => {string - validation message},
+ *     'allowEmpty' => {bool - allow empty value}
  * ])
  *
  * @author     David Hübner <david.hubner at google.com>
