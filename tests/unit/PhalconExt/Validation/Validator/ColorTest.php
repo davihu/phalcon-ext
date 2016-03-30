@@ -1,6 +1,6 @@
 <?php
 
-namespace PhalconExt\Tests\Validation\Validator;
+namespace PhalconExt\Test\Validation\Validator;
 
 use PhalconExt\Validation\Validator\Color;
 

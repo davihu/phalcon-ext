@@ -1,6 +1,6 @@
 <?php
 
-namespace PhalconExt\Tests\Mvc\Model\Traits;
+namespace PhalconExt\Test\Mvc\Model\Traits;
 
 use PhalconExt\Mvc\Model\Traits\RateLimitLoginTrait;
 

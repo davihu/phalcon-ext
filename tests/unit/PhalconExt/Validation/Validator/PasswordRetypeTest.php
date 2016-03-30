@@ -1,6 +1,6 @@
 <?php
 
-namespace PhalconExt\Tests\Validation\Validator;
+namespace PhalconExt\Test\Validation\Validator;
 
 use PhalconExt\Validation\Validator\PasswordRetype;
 use Phalcon\Validation\Exception;
@@ -198,7 +198,7 @@ class PasswordRetypeTest extends \PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(''));
 
-        $this->expectException(Exception::class);
+        $this->setExpectedException(Exception::class);
         $validator1->validate($mock, 'attribute');
     }
 

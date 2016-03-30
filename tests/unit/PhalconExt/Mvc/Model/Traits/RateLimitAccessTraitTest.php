@@ -1,6 +1,6 @@
 <?php
 
-namespace PhalconExt\Tests\Mvc\Model\Traits;
+namespace PhalconExt\Test\Mvc\Model\Traits;
 
 use PhalconExt\Mvc\Model\Traits\RateLimitAccessTrait;
 
@@ -48,7 +48,7 @@ class RateLimitAccessTraitTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAccessRateLimitPeriodException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
         $this->object->setAccessRateLimitPeriod('aaa');
     }
 
