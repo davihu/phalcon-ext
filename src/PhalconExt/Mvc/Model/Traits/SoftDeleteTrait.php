@@ -23,7 +23,7 @@ trait SoftDeleteTrait
     /**
      * @var bool $trash - record is trashed
      */
-    private $trash = false;
+    protected $trash = false;
 
     /**
      * Trashes actual item
