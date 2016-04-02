@@ -12,21 +12,21 @@ namespace PhalconExt\Mvc\Model\Traits;
 
 /**
  * Adds login rate limit support to target model
- * 
+ *
  * Class using this trait must define 2 constants:
- * 
+ *
  *     MAX_FAILED_LOGIN_ATTEMPTS
  *     ACCOUNT_LOCK_DURATION (in seconds)
  *
- * Usage:
- * 
+ * <code>
  * class ModelWithLoginRateLimit extends \Phalcon\Mvc\Model
  * {
  *     use \PhalconExt\Mvc\Model\Traits\RateLimitLoginTrait;
- * 
+ *
  *     const MAX_FAILED_LOGIN_ATTEMPTS = 10;
  *     const ACCOUNT_LOCK_DURATION = 600;
  * }
+ * </code>
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
@@ -36,24 +36,24 @@ trait RateLimitLoginTrait
 {
 
     /**
-     * @var int $_failedLoginAttempts - failed login attempts 
+     * @var int $failedLoginAttempts - failed login attempts
      */
-    private $_failedLoginAttempts = 0;
+    protected $failedLoginAttempts = 0;
 
     /**
-     * @var int $_failedLoginTs - last failed login timestamp
+     * @var int $failedLoginTs - last failed login timestamp
      */
-    private $_failedLoginTs = 0;
+    protected $failedLoginTs = 0;
 
     /**
      * @var int $lastLoginTs - last successfull login timestamp
      */
-    public $lastLoginTs;
+    protected $lastLoginTs;
 
     /**
      * @var int $lastLoginIp - last successfull login IP address
      */
-    public $lastLoginIp;
+    protected $lastLoginIp;
 
     /**
      * Returns actual failed login attempts
@@ -63,7 +63,7 @@ trait RateLimitLoginTrait
      */
     public function getFailedLoginAttempts()
     {
-        return $this->_failedLoginAttempts;
+        return $this->failedLoginAttempts;
     }
 
     /**
@@ -75,11 +75,11 @@ trait RateLimitLoginTrait
     public function hasAccountLocked()
     {
         // not engough failed attempts
-        if ($this->_failedLoginAttempts < self::MAX_FAILED_LOGIN_ATTEMPTS) {
+        if ($this->failedLoginAttempts < self::MAX_FAILED_LOGIN_ATTEMPTS) {
             return false;
         }
 
-        $diff = $this->_failedLoginTs + self::ACCOUNT_LOCK_DURATION - time();
+        $diff = $this->failedLoginTs + self::ACCOUNT_LOCK_DURATION - time();
 
         // account lock in process
         if ($diff > 0) {
@@ -87,8 +87,8 @@ trait RateLimitLoginTrait
         }
 
         // releasing lock
-        $this->_failedLoginAttempts = 0;
-        $this->_failedLoginTs = 0;
+        $this->failedLoginAttempts = 0;
+        $this->failedLoginTs = 0;
 
         return false;
     }
@@ -101,8 +101,8 @@ trait RateLimitLoginTrait
      */
     public function incrementFailedLoginAttempts()
     {
-        $this->_failedLoginAttempts += 1;
-        $this->_failedLoginTs = time();
+        $this->failedLoginAttempts += 1;
+        $this->failedLoginTs = time();
         return $this->save();
     }
 
@@ -110,16 +110,38 @@ trait RateLimitLoginTrait
      * Resets failed login attempts
      *
      * @author  David Hübner <david.hubner at google.com>
-     * @param   string $ipAddress - login IP address, default NULL
+     * @param   string $ipAddress - login IP address, default null
      * @return  bool
      */
-    public function resetFailedLoginAttempts($ipAddress = NULL)
+    public function resetFailedLoginAttempts($ipAddress = null)
     {
-        $this->_failedLoginAttempts = 0;
-        $this->_failedLoginTs = 0;
+        $this->failedLoginAttempts = 0;
+        $this->failedLoginTs = 0;
         $this->lastLoginTs = time();
         $this->lastLoginIp = $ipAddress;
         return $this->save();
+    }
+
+    /**
+     * Gets last login timestamp
+     *
+     * @author  David Hübner <david.hubner at google.com>
+     * @return  int | null
+     */
+    public function getLastLoginTs()
+    {
+        return $this->lastLoginTs;
+    }
+
+    /**
+     * Gets last login ip address
+     *
+     * @author  David Hübner <david.hubner at google.com>
+     * @return  string | null
+     */
+    public function getLastLoginIp()
+    {
+        return $this->lastLoginIp;
     }
 
 }
