@@ -18,6 +18,9 @@
     "require": {
         "php": ">=5.4"
     },
+    "require-dev": {
+        "codeception/codeception": "^2.1"
+    },
     "autoload": {
         "psr-4": {
             "PhalconExt\\": "src/PhalconExt/"
@@ -25,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PhalconExt\\Tests\\": "tests/"
+            "PhalconExt\\Test\\": "tests/unit/PhalconExt/"
         }
     }
 }
