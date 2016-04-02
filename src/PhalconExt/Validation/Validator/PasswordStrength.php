@@ -14,14 +14,14 @@ use Phalcon\Validation;
 
 /**
  * Validates password strength
- * 
- * Usage:
- * 
+ *
+ * <code>
  * new \PhalconExt\Validation\Validator\PasswordStrength([
  *     'minScore' => {[1-4] - minimal password score},
  *     'message' => {string - validation message},
  *     'allowEmpty' => {bool - allow empty value}
  * ])
+ * </code>
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
@@ -51,7 +51,7 @@ class PasswordStrength extends Validation\Validator
 
         $minScore = ($this->hasOption('minScore') ? $this->getOption('minScore') : self::MIN_VALID_SCORE);
 
-        if (is_string($value) && $this->_countScore($value) >= $minScore) {
+        if (is_string($value) && $this->countScore($value) >= $minScore) {
             return true;
         }
 
@@ -71,7 +71,7 @@ class PasswordStrength extends Validation\Validator
      * @param   string $value - password
      * @return  int (1 = very weak, 2 = weak, 3 = medium, 4+ = strong)
      */
-    private function _countScore($value)
+    private function countScore($value)
     {
         $score = 0;
         $hasLower = preg_match('![a-z]!', $value);
@@ -102,5 +102,4 @@ class PasswordStrength extends Validation\Validator
 
         return $score;
     }
-
 }

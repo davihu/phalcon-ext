@@ -15,12 +15,12 @@ use Phalcon\Validation;
 /**
  * Validates if value is valid color
  *
- * Usage:
- * 
+ * <code>
  * new \PhalconExt\Validation\Validator\Color([
  *     'message' => {string - validation message},
  *     'allowEmpty' => {bool - allow empty value}
  * ])
+ * </code>
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
@@ -58,5 +58,4 @@ class Color extends Validation\Validator
 
         return false;
     }
-
 }

@@ -143,5 +143,4 @@ trait RateLimitLoginTrait
     {
         return $this->lastLoginIp;
     }
-
 }

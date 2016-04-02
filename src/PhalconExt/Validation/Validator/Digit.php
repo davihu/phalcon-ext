@@ -14,14 +14,14 @@ use Phalcon\Validation;
 
 /**
  * Validates if value is whole number
- * Can be set as string or integer 
+ * Can be set as string or integer
  *
- * Usage:
- * 
+ * <code>
  * new \PhalconExt\Validation\Validator\Digit([
  *     'message' => {string - validation message},
  *     'allowEmpty' => {bool - allow empty value}
  * ])
+ * </code>
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
@@ -59,5 +59,4 @@ class Digit extends Validation\Validator
 
         return false;
     }
-
 }

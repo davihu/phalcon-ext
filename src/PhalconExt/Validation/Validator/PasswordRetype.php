@@ -10,19 +10,19 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation,
-    Phalcon\Validation\Exception;
+use Phalcon\Validation;
+use Phalcon\Validation\Exception;
 
 /**
  * Validates if password retype matches password
- * 
- * Usage:
- * 
+ *
+ * <code>
  * new \PhalconExt\Validation\Validator\PasswordRetype([
  *     'origField' => {string - original field attribute},
  *     'message' => {string - validation message},
  *     'allowEmpty' => {bool - allow empty value}
  * ])
+ * </code>
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
@@ -68,5 +68,4 @@ class PasswordRetype extends Validation\Validator
 
         return false;
     }
-
 }
