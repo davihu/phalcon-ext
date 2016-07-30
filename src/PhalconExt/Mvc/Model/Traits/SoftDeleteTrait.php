@@ -82,6 +82,6 @@ trait SoftDeleteTrait
      */
     public static function countTrashed()
     {
-        return self::count(['conditions' => '_trash = 1']);
+        return self::count(['conditions' => 'trash = 1']);
     }
 }
