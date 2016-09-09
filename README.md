@@ -4,7 +4,7 @@ Various extensions and utilities for Phalcon Framework
 
 ## Pre-requisites
 
-1. [Phalcon framework 2.x](https://phalconphp.com/)
+1. [Phalcon framework 2.x or 3.0](https://phalconphp.com/)
 
 ## Installation
 
@@ -15,7 +15,7 @@ You can use the `composer` package manager to install. Either run:
 
 or add:
 
-    "davihu/phalcon-ext": "dev-master"
+    "davihu/phalcon-ext": "^1.0"
 
 to your composer.json file
 
