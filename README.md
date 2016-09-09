@@ -11,7 +11,7 @@ Various extensions and utilities for Phalcon Framework
 ### Using Composer
 You can use the `composer` package manager to install. Either run:
 
-    $ php composer.phar require davihu/phalcon-ext "dev-master"
+    $ php composer.phar require davihu/phalcon-ext "^1.0"
 
 or add:
 
