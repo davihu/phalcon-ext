@@ -94,7 +94,6 @@ Thats all, very simple but powerfull!
 
 ### Validators
 * [PhalconExt\Validation\Validator\Color](src/PhalconExt/Validation/Validator) - Validates if value is valid color
-* [PhalconExt\Validation\Validator\Digit](src/PhalconExt/Validation/Validator) - Validates if value is whole number, can be set as string or integer
 * [PhalconExt\Validation\Validator\EmailDomain](src/PhalconExt/Validation/Validator) - Validates email domain existence via DNS
 * [PhalconExt\Validation\Validator\PasswordRetype](src/PhalconExt/Validation/Validator) - Validates if password confirmation matches password
 * [PhalconExt\Validation\Validator\PasswordStrength](src/PhalconExt/Validation/Validator) - Validates password strength
