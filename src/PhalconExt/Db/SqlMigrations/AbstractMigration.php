@@ -15,7 +15,7 @@ namespace PhalconExt\Db\SqlMigrations;
  *
  * @author     David Hübner <david.hubner at google.com>
  * @version    Release: @package_version@
- * @since      Release 2.0
+ * @since      Release 1.1
  */
 abstract class AbstractMigration
 {

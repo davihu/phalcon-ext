@@ -24,7 +24,10 @@
     "autoload": {
         "psr-4": {
             "PhalconExt\\": "src/PhalconExt/"
-        }
+        },
+        "classmap": [
+            "cli/tasks"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
