@@ -31,9 +31,9 @@ Can be easily attached to your console application.
 
     php console.php migrations generate                # generates new migration
     php console.php migrations migrate                 # migrates database to last version
-    php console.php migrations migrate 160617133459    # migrates database to selected version
+    php console.php migrations migrate 160910160944    # migrates database to selected version
 
-##### Set up in bootstrap file:
+##### Set up in console bootstrap file:
 
 1) Choose migrations directory
 
@@ -65,14 +65,19 @@ With namespace usage
 
 ##### Writing migrations classes
 
-    public function up()
-    {
-        $this->addSql("ALTER TABLE robots ADD COLUMN number VARCHAR(20)");
-    }
+    use PhalconExt\Db\SqlMigrations\AbstractMigration;
 
-    public function down()
+    class Migration160910160944 extends AbstractMigration
     {
-        $this->addSql("ALTER TABLE robots DROP COLUMN number");
+        public function up()
+        {
+            $this->addSql("ALTER TABLE robots ADD COLUMN number VARCHAR(20)");
+        }
+
+        public function down()
+        {
+            $this->addSql("ALTER TABLE robots DROP COLUMN number");
+        }
     }
 
 Thats all, very simple but powerfull!
