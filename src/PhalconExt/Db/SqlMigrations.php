@@ -65,15 +65,15 @@ class SqlMigrations
      * Creates new sql migrations
      * @param \Phalcon\Db\AdapterInterface $dbAdapter
      * @param string $dir
-     * @param string $table - default 'Sql_Migrations'
      * @param string $ns - default ''
+     * @param string $table - default 'Sql_Migrations'
      */
-    public function __construct(AdapterInterface $dbAdapter, $dir, $table = self::DEFAULT_TABLE, $ns = '')
+    public function __construct(AdapterInterface $dbAdapter, $dir, $ns = '', $table = self::DEFAULT_TABLE)
     {
         $this->dbAdapter = $dbAdapter;
         $this->setDir($dir);
-        $this->setTable($table);
         $this->setNs($ns);
+        $this->setTable($table);
     }
 
     /**
