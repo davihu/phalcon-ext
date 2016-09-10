@@ -65,16 +65,12 @@ With namespace usage
 
 ##### Writing migrations classes
 
-Method up()
-
     public function up()
     {
         $this->addSql("ALTER TABLE robots ADD COLUMN number VARCHAR(20)");
     }
 
-Method down()
-
-    public function up()
+    public function down()
     {
         $this->addSql("ALTER TABLE robots DROP COLUMN number");
     }
