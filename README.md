@@ -73,12 +73,17 @@ With namespace usage
     {
         public function up()
         {
+            # simple statements
             $this->addSql("ALTER TABLE robots ADD COLUMN number VARCHAR(20)");
+
+            # routine statements like triggers, procedures and functions
+            $this->addSql("CREATE TRIGGER MyTrigger ...", true);
         }
 
         public function down()
         {
             $this->addSql("ALTER TABLE robots DROP COLUMN number");
+            $this->addSql("DROP TRIGGER MyTrigger");
         }
     }
 

@@ -383,8 +383,14 @@ class SqlMigrations
 
             $statements = $migration->getStatements();
 
-            foreach ($statements as $statement) {
-                echo $statement . ';' . PHP_EOL;
+            foreach ($statements as $i => $statement) {
+                if ($migration->isRoutine($i)) {
+                    echo 'DELIMITER ;;' . PHP_EOL;
+                    echo $statement . ';;' . PHP_EOL;
+                    echo 'DELIMITER ;' . PHP_EOL;
+                } else {
+                    echo $statement . ';' . PHP_EOL;
+                }
             }
 
             echo PHP_EOL;
@@ -422,8 +428,14 @@ class SqlMigrations
 
             $statements = $migration->getStatements();
 
-            foreach ($statements as $statement) {
-                echo $statement . ';' . PHP_EOL;
+            foreach ($statements as $i => $statement) {
+                if ($migration->isRoutine($i)) {
+                    echo 'DELIMITER ;;' . PHP_EOL;
+                    echo $statement . ';;' . PHP_EOL;
+                    echo 'DELIMITER ;' . PHP_EOL;
+                } else {
+                    echo $statement . ';' . PHP_EOL;
+                }
             }
 
             echo PHP_EOL;
