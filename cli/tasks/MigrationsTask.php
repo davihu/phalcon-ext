@@ -18,6 +18,8 @@ use Phalcon\Cli\Task;
  * php console.php migrations generate
  * php console.php migrations migrate
  * php console.php migrations migrate 160617133459
+ * php console.php migrations sql
+ * php console.php migrations sql 160617133459
  *
  * You need to register migrations service to your DI
  *
@@ -34,6 +36,15 @@ use Phalcon\Cli\Task;
  */
 class MigrationsTask extends Task
 {
+
+    /**
+     * Generates new migration class
+     */
+    public function generateAction()
+    {
+        $migrations = $this->getDI()->get('migrations');
+        $migrations->generate();
+    }
 
     /**
      * Migrates database to last or selected version
@@ -53,14 +64,5 @@ class MigrationsTask extends Task
     {
         $migrations = $this->getDI()->get('migrations');
         $migrations->sql((isset($args[0]) ? $args[0] : null));
-    }
-
-    /**
-     * Generates new migration class
-     */
-    public function generateAction()
-    {
-        $migrations = $this->getDI()->get('migrations');
-        $migrations->generate();
     }
 }

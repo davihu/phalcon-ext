@@ -29,9 +29,11 @@ Can be easily attached to your console application.
 
 ##### Supported commands:
 
-    php console.php migrations generate                # generates new migration
-    php console.php migrations migrate                 # migrates database to last version
-    php console.php migrations migrate 160910160944    # migrates database to selected version
+    php console.php migrations generate                        # generates new migration class
+    php console.php migrations migrate                         # migrates database to last version
+    php console.php migrations migrate 160910160944            # migrates database to selected version
+    php console.php migrations sql > migrate.sql               # saves SQL statements for migration to last version to file migrate.sql
+    php console.php migrations sql 160910160944 > migrate.sql  # saves SQL statements for migration to selected version to file migrate.sql
 
 ##### Set up in console bootstrap file:
 
