@@ -325,6 +325,115 @@ class SqlMigrations
     }
 
     /**
+     * Outputs SQL statements to last or selected version
+     * @param  string $version
+     */
+    public function sql($version = null)
+    {
+        if ($version && !preg_match('!^\d{12,12}$!', $version)) {
+            throw new \InvalidArgumentException('Wrong version number ' . $version . ', expecting 12 digits number');
+        }
+
+        $this->initProcessed();
+        $this->initAvailable();
+
+        if (empty($this->available)) {
+            echo '# No migrations available' . PHP_EOL;
+            return;
+        }
+
+        if (empty($version)) {
+            $version = end($this->available);
+        }
+
+        $done = 0;
+
+        $done += $this->sqlUp($version);
+        $done += $this->sqlDown($version);
+
+        if (empty($done)) {
+            echo '# No migrations to execute' . PHP_EOL;
+        }
+    }
+
+    /**
+     * Output all migrations statements up to given max. version
+     * @param  string $maxVersion
+     * @return int
+     * @throws \Exception
+     */
+    protected function sqlUp($maxVersion)
+    {
+        $done = 0;
+
+        foreach ($this->available as $version) {
+            if ($version > $maxVersion) {
+                break;
+            }
+
+            if ($this->isProcessed($version)) {
+                continue;
+            }
+
+            $className = $this->version2class($version);
+            $migration = new $className();
+            $migration->up();
+
+            echo '# Migrating database UP to version ' . $version . PHP_EOL;
+
+            $statements = $migration->getStatements();
+
+            foreach ($statements as $statement) {
+                echo $statement . ';' . PHP_EOL;
+            }
+
+            echo PHP_EOL;
+            ++$done;
+        }
+
+        return $done;
+    }
+
+    /**
+     * Output all migrations statements down to given max. version
+     * @param  string $maxVersion
+     * @return int
+     * @throws \Exception
+     */
+    protected function sqlDown($maxVersion)
+    {
+        $done = 0;
+        $reversed = array_reverse($this->available);
+
+        foreach ($reversed as $version) {
+            if ($version <= $maxVersion) {
+                break;
+            }
+
+            if (!$this->isProcessed($version)) {
+                continue;
+            }
+
+            $className = $this->version2class($version);
+            $migration = new $className();
+            $migration->down();
+
+            echo '# Migrating database DOWN to version ' . $version . PHP_EOL;
+
+            $statements = $migration->getStatements();
+
+            foreach ($statements as $statement) {
+                echo $statement . ';' . PHP_EOL;
+            }
+
+            echo PHP_EOL;
+            ++$done;
+        }
+
+        return $done;
+    }
+
+    /**
      * Executes migrations statements
      * @param array $statements
      * @param bool $bubble - bubble exception, default false

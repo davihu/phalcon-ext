@@ -46,6 +46,16 @@ class MigrationsTask extends Task
     }
 
     /**
+     * Outputs all SQL statements for migrating database to last or selected version
+     * @param array $args - default null
+     */
+    public function sqlAction(Array $args = null)
+    {
+        $migrations = $this->getDI()->get('migrations');
+        $migrations->sql((isset($args[0]) ? $args[0] : null));
+    }
+
+    /**
      * Generates new migration class
      */
     public function generateAction()
