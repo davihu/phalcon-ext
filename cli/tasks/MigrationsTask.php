@@ -42,10 +42,10 @@ class MigrationsTask extends Task
      */
     public function mainAction()
     {
-        echo "migrations\n";
-        echo "    generate         - generates new database migration\n";
-        echo "    migrate [ver]    - migrates database to last or selected version\n";
-        echo "    sql [ver]        - outputs list of SQL statements for migration to last or selected version\n";
+        echo 'migrations' . PHP_EOL;
+        echo '    generate         - generates new database migration' . PHP_EOL;
+        echo '    migrate [ver]    - migrates database to last or selected version' . PHP_EOL;
+        echo '    sql [ver]        - outputs list of SQL statements for migration to last or selected version' . PHP_EOL;
     }
 
     /**
