@@ -38,6 +38,17 @@ class MigrationsTask extends Task
 {
 
     /**
+     * Outputs task help
+     */
+    public function mainAction()
+    {
+        echo "migrations\n";
+        echo "    generate         - generates new database migration\n";
+        echo "    migrate [ver]    - migrates database to last or selected version\n";
+        echo "    sql [ver]        - outputs list of SQL statements for migration to last or selected version\n";
+    }
+
+    /**
      * Generates new migration class
      */
     public function generateAction()
