@@ -38,6 +38,17 @@ class MigrationsTask extends Task
 {
 
     /**
+     * Outputs task help
+     */
+    public function mainAction()
+    {
+        echo 'migrations' . PHP_EOL;
+        echo '    generate         - generates new database migration' . PHP_EOL;
+        echo '    migrate [ver]    - migrates database to last or selected version' . PHP_EOL;
+        echo '    sql [ver]        - outputs list of SQL statements for migration to last or selected version' . PHP_EOL;
+    }
+
+    /**
      * Generates new migration class
      */
     public function generateAction()
