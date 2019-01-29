@@ -1,7 +1,7 @@
 <?php
 /*
  * Phalcon Ext
- * Copyright (c) 2016 David Hübner
+ * Copyrgt (c) 2016 David Hübner
  * This source file is subject to the New BSD License
  * Licence is bundled with this package in the file docs/LICENSE.txt
  * Author: David Hübner <david.hubner@gmail.com>
@@ -30,8 +30,8 @@ trait NestedSetTrait
     public $parentId;
     public $sequence = 0;
     protected $root;
-    protected $left;
-    protected $right;
+    protected $lft;
+    protected $rgt;
     protected $level;
 
     /**
@@ -65,7 +65,7 @@ trait NestedSetTrait
      */
     public function getLeft()
     {
-        return $this->left;
+        return $this->lft;
     }
 
     /**
@@ -76,7 +76,7 @@ trait NestedSetTrait
      */
     public function getRight()
     {
-        return $this->right;
+        return $this->rgt;
     }
 
     /**
@@ -98,7 +98,7 @@ trait NestedSetTrait
      */
     public function isRoot()
     {
-        return ($this->left == 1 ? true : false);
+        return ($this->lft == 1 ? true : false);
     }
 
     /**
@@ -109,7 +109,7 @@ trait NestedSetTrait
      */
     public function isleaf()
     {
-        return ($this->right - $this->left == 1 ? true : false);
+        return ($this->rgt - $this->lft == 1 ? true : false);
     }
 
     /**
@@ -124,7 +124,7 @@ trait NestedSetTrait
         if ($this->root != $subject->getRoot()) {
             return false;
         }
-        if ($this->left > $subject->getLeft() && $this->right < $subject->getRight()) {
+        if ($this->lft > $subject->getLeft() && $this->rgt < $subject->getRight()) {
             return true;
         }
         return false;
@@ -142,7 +142,7 @@ trait NestedSetTrait
         if ($this->root != $subject->getRoot()) {
             return false;
         }
-        if ($this->left < $subject->getLeft() && $this->right > $subject->getRight()) {
+        if ($this->lft < $subject->getLeft() && $this->rgt > $subject->getRight()) {
             return true;
         }
         return false;
@@ -161,7 +161,7 @@ trait NestedSetTrait
     public static function findRoots($extraCond = null, array $extraBind = array(), $columns = null)
     {
         $params = array();
-        $params['conditions'] = 'left = 1' . ($extraCond ? ' AND (' . $extraCond . ')' : '');
+        $params['conditions'] = 'lft = 1' . ($extraCond ? ' AND (' . $extraCond . ')' : '');
         $params['order'] = 'sequence';
         if ($extraBind) {
             $params['bind'] = $extraBind;
@@ -184,10 +184,10 @@ trait NestedSetTrait
      */
     public function findDescendants($extraCond = null, array $extraBind = array(), $columns = null, $depth = null)
     {
-        $cond = 'left > :left: AND right < :right: AND root = :root:';
+        $cond = 'lft > :lft: AND rgt < :rgt: AND root = :root:';
         $bind = array(
-            'left' => $this->left,
-            'right' => $this->right,
+            'lft' => $this->lft,
+            'rgt' => $this->rgt,
             'root' => $this->root
         );
 
@@ -199,7 +199,7 @@ trait NestedSetTrait
         $params = array();
         $params['conditions'] = $cond . ($extraCond ? ' AND (' . $extraCond . ')' : '');
         $params['bind'] = array_merge($bind, $extraBind);
-        $params['order'] = 'left';
+        $params['order'] = 'lft';
         if ($columns) {
             $params['columns'] = $columns;
         }
@@ -233,11 +233,11 @@ trait NestedSetTrait
      */
     public function findAncestors($extraCond = null, array $extraBind = array(), $columns = null, $depth = null)
     {
-        $cond = 'root = :root: AND left < :left: AND right > :right:';
+        $cond = 'root = :root: AND lft < :lft: AND rgt > :rgt:';
         $bind = array(
             'root' => $this->root,
-            'left' => $this->left,
-            'right' => $this->right
+            'lft' => $this->lft,
+            'rgt' => $this->rgt
         );
 
         if ($depth) {
@@ -248,7 +248,7 @@ trait NestedSetTrait
         $params = array();
         $params['conditions'] = $cond . ($extraCond ? ' AND (' . $extraCond . ')' : '');
         $params['bind'] = array_merge($bind, $extraBind);
-        $params['order'] = 'left';
+        $params['order'] = 'lft';
         if ($columns) {
             $params['columns'] = $columns;
         }
@@ -293,15 +293,15 @@ trait NestedSetTrait
         $params = array();
 
         if ($this->isRoot()) {
-            $params['conditions'] = 'left = 1 AND sequence = :sequence:';
+            $params['conditions'] = 'lft = 1 AND sequence = :sequence:';
             $params['bind'] = array(
                 'sequence' => $this->sequence - 1
             );
         } else {
-            $params['conditions'] = 'root = :root: AND right = :right:';
+            $params['conditions'] = 'root = :root: AND rgt = :rgt:';
             $params['bind'] = array(
                 'root' => $this->root,
-                'right' => $this->left - 1
+                'rgt' => $this->lft - 1
             );
         }
 
@@ -324,15 +324,15 @@ trait NestedSetTrait
         $params = array();
 
         if ($this->isRoot()) {
-            $params['conditions'] = 'left = 1 AND sequence = :sequence:';
+            $params['conditions'] = 'lft = 1 AND sequence = :sequence:';
             $params['bind'] = array(
                 'sequence' => $this->sequence + 1
             );
         } else {
-            $params['conditions'] = 'root = :root: AND left = :left:';
+            $params['conditions'] = 'root = :root: AND lft = :lft:';
             $params['bind'] = array(
                 'root' => $this->root,
-                'left' => $this->right + 1
+                'lft' => $this->rgt + 1
             );
         }
 
@@ -359,8 +359,8 @@ trait NestedSetTrait
         if (empty($this->parentId)) {
             $db->begin();
 
-            $this->left = 1;
-            $this->right = 2;
+            $this->lft = 1;
+            $this->rgt = 2;
             $this->level = 1;
             $this->sequence = $this->getMaxSequence();
 
@@ -387,17 +387,17 @@ trait NestedSetTrait
         }
 
         // locking target tree
-        $query = sprintf('SELECT root, left, right, level FROM %s WHERE root=\'%s\' FOR UPDATE', $this->getSource(), $parent->root);
+        $query = sprintf('SELECT root, lft, rgt, level FROM %s WHERE root=\'%s\' FOR UPDATE', $this->getSource(), $parent->root);
         $this->getWriteConnection()->fetchAll($query);
 
-        if (!$this->shiftNodes($parent->root, $parent->right, 2)) {
+        if (!$this->shiftNodes($parent->root, $parent->rgt, 2)) {
             $db->rollback();
             return false;
         }
 
         $this->root = $parent->root;
-        $this->left = $parent->right;
-        $this->right = $parent->right + 1;
+        $this->lft = $parent->rgt;
+        $this->rgt = $parent->rgt + 1;
         $this->level = $parent->level + 1;
         $this->sequence = 0;
 
@@ -437,7 +437,7 @@ trait NestedSetTrait
         $conn = $this->getWriteConnection();
 
         // locking source tree
-        $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $this->root);
+        $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $this->root);
         $conn->fetchAll($query);
 
         // parent change
@@ -446,12 +446,12 @@ trait NestedSetTrait
             if (empty($this->parentId)) {
                 // locking target tree
                 if ($target && $this->root != $target->root) {
-                    $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
+                    $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
                     $conn->fetchAll($query);
                 }
 
                 // locking roots
-                $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE left=1 FOR UPDATE', $table);
+                $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE lft=1 FOR UPDATE', $table);
                 $conn->fetchAll($query);
 
                 // moving to root
@@ -473,12 +473,12 @@ trait NestedSetTrait
 
                 // locking target tree
                 if ($target && $this->root != $target->root) {
-                    $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
+                    $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
                     $conn->fetchAll($query);
                 }
 
                 // locking roots
-                $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE left=1 FOR UPDATE', $table);
+                $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE lft=1 FOR UPDATE', $table);
                 $conn->fetchAll($query);
 
                 // moving
@@ -496,14 +496,14 @@ trait NestedSetTrait
         elseif ($target) {
             // locking target tree
             if ($target && $this->root != $target->root) {
-                $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
+                $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE root=\'%s\' FOR UPDATE', $table, $target->root);
                 $conn->fetchAll($query);
             }
 
             // moving root
-            if ($this->left == 1) {
+            if ($this->lft == 1) {
                 // locking roots
-                $query = sprintf('SELECT root, left, right, level, sequence FROM %s WHERE left=1 FOR UPDATE', $table);
+                $query = sprintf('SELECT root, lft, rgt, level, sequence FROM %s WHERE lft=1 FOR UPDATE', $table);
                 $conn->fetchAll($query);
 
                 // moving
@@ -555,7 +555,7 @@ trait NestedSetTrait
         $db->begin();
 
         // deleting all descendants
-        if (empty($skipNested) && ($this->left + 1) < $this->right) {
+        if (empty($skipNested) && ($this->lft + 1) < $this->rgt) {
             $descendants = $this->findDescendants();
             foreach ($descendants as $descendant) {
                 if (!$descendant->deleteNode()) {
@@ -574,7 +574,7 @@ trait NestedSetTrait
         }
         // shifting nodes
         else {
-            if (!$this->shiftNodes($this->root, $this->right, ($this->right - $this->left + 1) * -1)) {
+            if (!$this->shiftNodes($this->root, $this->rgt, ($this->rgt - $this->lft + 1) * -1)) {
                 $db->rollback();
                 return false;
             }
@@ -604,8 +604,8 @@ trait NestedSetTrait
     // moves node as root
     protected function moveAsRoot($target, $mode)
     {
-        $size = $this->right - $this->left + 1;
-        $posDiff = 1 - $this->left;
+        $size = $this->rgt - $this->lft + 1;
+        $posDiff = 1 - $this->lft;
         $lvlDiff = 1 - $this->level;
 
         $table = $this->getSource();
@@ -613,13 +613,13 @@ trait NestedSetTrait
 
         // moving nodes
         $query = sprintf(
-            'UPDATE %s SET root=\'%s\', left=left+%d, right=right+%d, level=level+%d WHERE root=\'%s\' AND left>=%d AND right<=%d', $table, $this->id, $posDiff, $posDiff, $lvlDiff, $this->root, $this->left, $this->right
+            'UPDATE %s SET root=\'%s\', lft=lft+%d, rgt=rgt+%d, level=level+%d WHERE root=\'%s\' AND lft>=%d AND rgt<=%d', $table, $this->id, $posDiff, $posDiff, $lvlDiff, $this->root, $this->lft, $this->rgt
         );
         if (!$conn->execute($query)) {
             return false;
         }
         // updating source tree
-        if (!$this->shiftNodes($this->root, $this->right, ($size * -1))) {
+        if (!$this->shiftNodes($this->root, $this->rgt, ($size * -1))) {
             return false;
         }
         // shifting roots
@@ -639,8 +639,8 @@ trait NestedSetTrait
         }
         // everything ok
         $this->root = $this->id;
-        $this->left += $posDiff;
-        $this->right += $posDiff;
+        $this->lft += $posDiff;
+        $this->rgt += $posDiff;
         $this->level += $lvlDiff;
         $this->sequence = $pos;
         return true;
@@ -651,14 +651,14 @@ trait NestedSetTrait
     {
         $parentDiff = 0;
         if ($mode == 'before') {
-            $pos = (int) $target->left;
+            $pos = (int) $target->lft;
         } elseif ($mode == 'after') {
-            $pos = $target->right + 1;
+            $pos = $target->rgt + 1;
         } elseif ($mode == 'first') {
-            $pos = $target->left + 1;
+            $pos = $target->lft + 1;
             $parentDiff = 1;
         } else {
-            $pos = (int) $target->right;
+            $pos = (int) $target->rgt;
             $parentDiff = 1;
         }
         if ($this->root == $target->root) {
@@ -673,63 +673,63 @@ trait NestedSetTrait
     {
         $con = $this->getWriteConnection();
         $table = $this->getSource();
-        $size = $this->right - $this->left + 1;
+        $size = $this->rgt - $this->lft + 1;
 
         // temporary moving nodes to root
         $query = sprintf(
-            'UPDATE %s SET root=null WHERE root=\'%s\' AND left>=%d AND right<=%d', $table, $this->root, $this->left, $this->right
+            'UPDATE %s SET root=null WHERE root=\'%s\' AND lft>=%d AND rgt<=%d', $table, $this->root, $this->lft, $this->rgt
         );
         if (!$con->execute($query)) {
             return false;
         }
 
-        // moving from left to right
-        if ($this->right < $pos) {
+        // moving from lft to rgt
+        if ($this->rgt < $pos) {
             $query = sprintf(
-                'UPDATE %s SET left=left-%d WHERE root=\'%s\' AND left>%d AND left<%d', $table, $size, $this->root, $this->right, $pos
+                'UPDATE %s SET lft=lft-%d WHERE root=\'%s\' AND lft>%d AND lft<%d', $table, $size, $this->root, $this->rgt, $pos
             );
             if (!$con->execute($query)) {
                 return false;
             }
             $query = sprintf(
-                'UPDATE %s SET right=right-%d WHERE root=\'%s\' AND right>%d AND right<%d', $table, $size, $this->root, $this->right, $pos
+                'UPDATE %s SET rgt=rgt-%d WHERE root=\'%s\' AND rgt>%d AND rgt<%d', $table, $size, $this->root, $this->rgt, $pos
             );
             if (!$con->execute($query)) {
                 return false;
             }
-            $posDiff = $pos - $this->right - 1;
+            $posDiff = $pos - $this->rgt - 1;
         }
-        // moving from right to left
-        elseif ($this->left > $pos) {
+        // moving from rgt to lft
+        elseif ($this->lft > $pos) {
             // moving
             $query = sprintf(
-                'UPDATE %s SET left=left+%d WHERE root=\'%s\' AND left>=%d AND left<%d', $table, $size, $this->root, $pos, $this->left
+                'UPDATE %s SET lft=lft+%d WHERE root=\'%s\' AND lft>=%d AND lft<%d', $table, $size, $this->root, $pos, $this->lft
             );
             if (!$con->execute($query)) {
                 return false;
             }
             $query = sprintf(
-                'UPDATE %s SET right=right+%d WHERE root=\'%s\' AND right>=%d AND right<%d', $table, $size, $this->root, $pos, $this->left
+                'UPDATE %s SET rgt=rgt+%d WHERE root=\'%s\' AND rgt>=%d AND rgt<%d', $table, $size, $this->root, $pos, $this->lft
             );
             if (!$con->execute($query)) {
                 return false;
             }
-            $posDiff = $pos - $this->left;
+            $posDiff = $pos - $this->lft;
         }
 
         $lvlDiff = $target->level - $this->level + $parentDiff;
 
         // moving nodes from root
         $query = sprintf(
-            'UPDATE %s SET root=\'%s\', left=left+%d, right=right+%d, level=level+%d WHERE root IS NULL AND left>=%d AND right<=%d', $table, $target->root, $posDiff, $posDiff, $lvlDiff, $this->left, $this->right
+            'UPDATE %s SET root=\'%s\', lft=lft+%d, rgt=rgt+%d, level=level+%d WHERE root IS NULL AND lft>=%d AND rgt<=%d', $table, $target->root, $posDiff, $posDiff, $lvlDiff, $this->lft, $this->rgt
         );
         if (!$con->execute($query)) {
             return false;
         }
 
         // everything ok
-        $this->left += $posDiff;
-        $this->right += $posDiff;
+        $this->lft += $posDiff;
+        $this->rgt += $posDiff;
         $this->level += $lvlDiff;
         return true;
     }
@@ -737,8 +737,8 @@ trait NestedSetTrait
     // moves node to another tree
     protected function moveNodeAnotherTree($target, $pos, $parentDiff)
     {
-        $size = $this->right - $this->left + 1;
-        $posDiff = $pos - $this->left;
+        $size = $this->rgt - $this->lft + 1;
+        $posDiff = $pos - $this->lft;
         $lvlDiff = $target->level - $this->level + $parentDiff;
 
         // preparing target tree
@@ -751,23 +751,23 @@ trait NestedSetTrait
 
         // moving nodes
         $query = sprintf(
-            'UPDATE %s SET root=\'%s\', left=left+%d, right=right+%d, level=level+%d WHERE root=\'%s\' AND left>=%d AND right<=%d', $table, $target->root, $posDiff, $posDiff, $lvlDiff, $this->root, $this->left, $this->right
+            'UPDATE %s SET root=\'%s\', lft=lft+%d, rgt=rgt+%d, level=level+%d WHERE root=\'%s\' AND lft>=%d AND rgt<=%d', $table, $target->root, $posDiff, $posDiff, $lvlDiff, $this->root, $this->lft, $this->rgt
         );
         if (!$conn->execute($query)) {
             return false;
         }
 
         // updating source tree
-        if ($this->left > 1) {
-            if (!$this->shiftNodes($this->root, $this->right, ($size * -1))) {
+        if ($this->lft > 1) {
+            if (!$this->shiftNodes($this->root, $this->rgt, ($size * -1))) {
                 return false;
             }
         }
 
         // everything ok
         $this->root = $target->root;
-        $this->left += $posDiff;
-        $this->right += $posDiff;
+        $this->lft += $posDiff;
+        $this->rgt += $posDiff;
         $this->level += $lvlDiff;
         return true;
     }
@@ -776,7 +776,7 @@ trait NestedSetTrait
     protected function findTargetById($id)
     {
         return self::findFirst(array(
-                'columns' => 'id,root,left,right,level',
+                'columns' => 'id,root,lft,rgt,level',
                 'conditions' => 'id = :id:',
                 'bind' => array('id' => $id),
                 'for_update' => true
@@ -792,19 +792,19 @@ trait NestedSetTrait
         // moving root as descendant
         if ($newSequence == 0) {
             $query = sprintf(
-                'UPDATE %s SET sequence=sequence-1 WHERE left=1 AND sequence>%d', $table, $this->sequence
+                'UPDATE %s SET sequence=sequence-1 WHERE lft=1 AND sequence>%d', $table, $this->sequence
             );
         }
         // moving root after another root
         elseif ($newSequence > $this->sequence) {
             $query = sprintf(
-                'UPDATE %s SET sequence=sequence-1 WHERE left=1 AND sequence>%d AND sequence<=%d', $table, $this->sequence, $newSequence
+                'UPDATE %s SET sequence=sequence-1 WHERE lft=1 AND sequence>%d AND sequence<=%d', $table, $this->sequence, $newSequence
             );
         }
         // moving root before another root
         elseif ($newSequence < $this->sequence) {
             $query = sprintf(
-                'UPDATE %s SET sequence=sequence+1 WHERE left=1 AND sequence>=%d AND sequence<%d', $table, $newSequence, $this->sequence
+                'UPDATE %s SET sequence=sequence+1 WHERE lft=1 AND sequence>=%d AND sequence<%d', $table, $newSequence, $this->sequence
             );
         }
 
@@ -821,7 +821,7 @@ trait NestedSetTrait
     {
         $cnt = self::maximum(array(
                 'column' => 'sequence',
-                'conditions' => 'left = 1',
+                'conditions' => 'lft = 1',
                 'for_update' => true
         ));
         return ($cnt + 1);
@@ -835,11 +835,11 @@ trait NestedSetTrait
 
         // shifting
         $query = sprintf(
-            'UPDATE %s SET left=left+%d WHERE root=\'%s\' AND left>=%d', $table, $delta, $root, $start
+            'UPDATE %s SET lft=lft+%d WHERE root=\'%s\' AND lft>=%d', $table, $delta, $root, $start
         );
         if ($conn->execute($query)) {
             $query = sprintf(
-                'UPDATE %s SET right=right+%d WHERE root=\'%s\' AND right>=%d', $table, $delta, $root, $start
+                'UPDATE %s SET rgt=rgt+%d WHERE root=\'%s\' AND rgt>=%d', $table, $delta, $root, $start
             );
             if ($conn->execute($query)) {
                 return true;
@@ -857,7 +857,7 @@ trait NestedSetTrait
 
         // shifting
         $query = sprintf(
-            'UPDATE %s SET sequence=sequence+%d WHERE left=1 AND sequence>=%d', $table, $delta, $start
+            'UPDATE %s SET sequence=sequence+%d WHERE lft=1 AND sequence>=%d', $table, $delta, $start
         );
         return $conn->execute($query);
     }
