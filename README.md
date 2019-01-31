@@ -23,6 +23,12 @@ to your composer.json file
 
 ### Version 1.2
 
+#### Added nested set support
+
+Adds nested set support to your model. Simply use trait \PhalconExt\Mvc\Model\Traits\NestedSetTrait in your model.
+
+### Version 1.1
+
 #### Added SQL database migrations support
 
 Can be easily attached to your console application.
