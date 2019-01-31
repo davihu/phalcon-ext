@@ -4,24 +4,24 @@ Various extensions and utilities for Phalcon Framework
 
 ## Pre-requisites
 
-1. [Phalcon framework 2.x or 3.0](https://phalconphp.com/)
+1. [Phalcon framework 2.x or 3.x](https://phalconphp.com/)
 
 ## Installation
 
 ### Using Composer
 You can use the `composer` package manager to install. Either run:
 
-    $ php composer.phar require davihu/phalcon-ext "^1.1"
+    $ php composer.phar require davihu/phalcon-ext "^1.2"
 
 or add:
 
-    "davihu/phalcon-ext": "^1.1"
+    "davihu/phalcon-ext": "^1.2"
 
 to your composer.json file
 
 ## Whats new?
 
-### Version 1.1
+### Version 1.2
 
 #### Added SQL database migrations support
 
