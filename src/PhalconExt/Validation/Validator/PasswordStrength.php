@@ -10,7 +10,9 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Messages\Message;
 
 /**
  * Validates password strength
@@ -27,7 +29,7 @@ use Phalcon\Validation;
  * @version    Release: @package_version@
  * @since      Release 1.0
  */
-class PasswordStrength extends Validation\Validator
+class PasswordStrength extends AbstractValidator
 {
 
     const MIN_VALID_SCORE = 2;
@@ -40,7 +42,7 @@ class PasswordStrength extends Validation\Validator
      * @param   string $attribute - validated attribute
      * @return  bool
      */
-    public function validate(Validation $validation, $attribute)
+    public function validate(Validation $validation, $attribute): bool
     {
         $allowEmpty = $this->getOption('allowEmpty');
         $value = $validation->getValue($attribute);
@@ -57,9 +59,7 @@ class PasswordStrength extends Validation\Validator
 
         $message = ($this->hasOption('message') ? $this->getOption('message') : 'Password is too weak');
 
-        $validation->appendMessage(
-            new Validation\Message($message, $attribute, 'PasswordStrengthValidator')
-        );
+        $validation->appendMessage(new Message($message, $attribute, 'PasswordStrengthValidator'));
 
         return false;
     }

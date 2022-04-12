@@ -10,7 +10,9 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Messages\Message;
 
 /**
  * Validates if value is valid color
@@ -26,7 +28,7 @@ use Phalcon\Validation;
  * @version    Release: @package_version@
  * @since      Release 1.0
  */
-class Color extends Validation\Validator
+class Color extends AbstractValidator
 {
 
     /**
@@ -37,7 +39,7 @@ class Color extends Validation\Validator
      * @param   string $attribute - validated attribute
      * @return  bool
      */
-    public function validate(Validation $validator, $attribute)
+    public function validate(Validation $validator, $attribute): bool
     {
         $allowEmpty = $this->getOption('allowEmpty');
         $value = $validator->getValue($attribute);
@@ -52,10 +54,9 @@ class Color extends Validation\Validator
 
         $message = ($this->hasOption('message') ? $this->getOption('message') : 'Not color');
 
-        $validator->appendMessage(
-            new Validation\Message($message, $attribute, 'ColorValidator')
-        );
+        $validator->appendMessage(new Message($message, $attribute, 'ColorValidator'));
 
         return false;
     }
+
 }

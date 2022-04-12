@@ -10,7 +10,9 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Messages\Message;
 
 /**
  * Validates email domain existence via DNS
@@ -26,7 +28,7 @@ use Phalcon\Validation;
  * @version    Release: @package_version@
  * @since      Release 1.0
  */
-class EmailDomain extends Validation\Validator
+class EmailDomain extends AbstractValidator
 {
 
     const DOMAIN_CHECK_TYPE = 'MX';
@@ -39,7 +41,7 @@ class EmailDomain extends Validation\Validator
      * @param   string $attribute - validated attribute
      * @return  bool
      */
-    public function validate(Validation $validation, $attribute)
+    public function validate(Validation $validation, $attribute): bool
     {
         $allowEmpty = $this->getOption('allowEmpty');
         $value = $validation->getValue($attribute);
@@ -57,9 +59,7 @@ class EmailDomain extends Validation\Validator
 
         $message = ($this->hasOption('message') ? $this->getOption('message') : 'Invalid email domain');
 
-        $validation->appendMessage(
-            new Validation\Message($message, $attribute, 'EmailDomainValidator')
-        );
+        $validation->appendMessage(new Message($message, $attribute, 'EmailDomainValidator'));
 
         return false;
     }

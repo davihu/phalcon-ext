@@ -10,8 +10,10 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
-use Phalcon\Validation\Exception;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Messages\Message;
 
 /**
  * Validates exact string length
@@ -27,7 +29,7 @@ use Phalcon\Validation\Exception;
  * @version    Release: @package_version@
  * @since      Release 1.0
  */
-class StringLengthExact extends Validation\Validator
+class StringLengthExact extends AbstractValidator
 {
 
     /**
@@ -37,9 +39,9 @@ class StringLengthExact extends Validation\Validator
      * @param   \Phalcon\Validation $validation - validation object
      * @param   string $attribute - validated attribute
      * @return  bool
-     * @throws  \Phalcon\Validation\Exception
+     * @throws  Exception
      */
-    public function validate(Validation $validation, $attribute)
+    public function validate(Validation $validation, $attribute): bool
     {
         if (!$this->hasOption('length')) {
             throw new Exception('Length must be set');
@@ -60,10 +62,9 @@ class StringLengthExact extends Validation\Validator
 
         $message = ($this->hasOption('message') ? $this->getOption('message') : 'Length must be ' . $length);
 
-        $validation->appendMessage(
-            new Validation\Message($message, $attribute, 'StringLengthExactValidator')
-        );
+        $validation->appendMessage(new Message($message, $attribute, 'StringLengthExactValidator'));
 
         return false;
     }
+
 }

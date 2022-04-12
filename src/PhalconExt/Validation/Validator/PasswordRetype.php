@@ -10,8 +10,10 @@
 
 namespace PhalconExt\Validation\Validator;
 
-use Phalcon\Validation;
-use Phalcon\Validation\Exception;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\AbstractValidator;
+use Phalcon\Filter\Validation\Exception;
+use Phalcon\Messages\Message;
 
 /**
  * Validates if password retype matches password
@@ -28,7 +30,7 @@ use Phalcon\Validation\Exception;
  * @version    Release: @package_version@
  * @since      Release 1.0
  */
-class PasswordRetype extends Validation\Validator
+class PasswordRetype extends AbstractValidator
 {
 
     /**
@@ -40,7 +42,7 @@ class PasswordRetype extends Validation\Validator
      * @return  bool
      * @throws  \Phalcon\Validation\Exception
      */
-    public function validate(Validation $validation, $attribute)
+    public function validate(Validation $validation, $attribute): bool
     {
         if (!$this->hasOption('origField')) {
             throw new Exception('Original field must be set');
@@ -62,10 +64,9 @@ class PasswordRetype extends Validation\Validator
 
         $message = ($this->hasOption('message') ? $this->getOption('message') : 'Passwords do not match');
 
-        $validation->appendMessage(
-            new Validation\Message($message, $attribute, 'PasswordRetypeValidator')
-        );
+        $validation->appendMessage(new Message($message, $attribute, 'PasswordRetypeValidator'));
 
         return false;
     }
+
 }
